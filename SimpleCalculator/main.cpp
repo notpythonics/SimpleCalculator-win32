@@ -55,7 +55,7 @@ void initCalcButtons(HWND hwnd) {
 std::int64_t result{};
 char op{ '+' };
 int num{}; // right operand
-bool isNumNeeded{ false };
+bool isNumNeeded{ true };
 bool isDone{ false };
 
 void doOp(char c, int n) {
@@ -124,7 +124,7 @@ void procButtonInput(HWND hwndParent, WPARAM wParam, LPARAM lParam) {
 		}
 		if (op == '=') {
 			TCHAR textResult[1000]{};
-			wsprintf(textResult, TEXT("%s %s %lli"), ewName, bwName, result);
+			wsprintf(textResult, TEXT("%s %s %d"), ewName, bwName, result); // C6328 warning? I tried %lld it didn't work!
 			SetWindowText(hew, textResult);
 			isDone = TRUE;
 			return;
