@@ -124,7 +124,7 @@ void procButtonInput(HWND hwndParent, WPARAM wParam, LPARAM lParam) {
 		}
 		if (op == '=') {
 			TCHAR textResult[1000]{};
-			wsprintf(textResult, TEXT("%s %s %d"), ewName, bwName, result); // C6328 warning? I tried %lld it didn't work!
+			wsprintf(textResult, TEXT("%s %s %I64d"), ewName, bwName, result); // I had a C6328 warning. %I64d fixed it!
 			SetWindowText(hew, textResult);
 			isDone = TRUE;
 			return;
