@@ -126,7 +126,7 @@ void procButtonInput(HWND hwndParent, WPARAM wParam, LPARAM lParam) {
 			TCHAR textResult[1000]{};
 			wsprintf(textResult, TEXT("%s %s %I64d"), ewName, bwName, result); // I had a C6328 warning. %I64d fixed it!
 			SetWindowText(hew, textResult);
-			isDone = TRUE;
+			isDone = true;
 			return;
 		}
 
@@ -156,6 +156,11 @@ LRESULT CALLBACK MainProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
+	CreateMutex(NULL, true, TEXT("SimpleCalculatorMutex"));
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+		return 0;
+
+
 	InitCommonControls();
 
 	const TCHAR* const MAIN_CLASS = TEXT("MainWindow");
