@@ -156,12 +156,13 @@ LRESULT CALLBACK MainProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
-	CreateMutex(NULL, true, TEXT("SimpleCalculatorMutex"));
+	HANDLE mutant = CreateMutex(NULL, true, TEXT("SimpleCalculatorMutex"));
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 		return 0;
 
 
 	InitCommonControls();
+
 
 	const TCHAR* const MAIN_CLASS = TEXT("MainWindow");
 
@@ -179,6 +180,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
 
 	RegisterClassEx(&wcx);
 
+
 	HWND hwnd = CreateWindow(
 		MAIN_CLASS,
 		TEXT("Calculator"),
@@ -190,11 +192,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
 		hInstance,
 		NULL);
 
+
 	MSG msg{};
 	while (GetMessage(&msg, NULL, NULL, NULL)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+
+
+	CloseHandle(mutant);
+	mutant = NULL;
 
 	return (int)msg.wParam;
 }
