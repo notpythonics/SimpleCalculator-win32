@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include <CommCtrl.h>
+#include <commctrl.h>
 #include "Buttons.h"
 
 #include <cstdint>
@@ -160,8 +160,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 		return 0;
 
+	
+	INITCOMMONCONTROLSEX iccx{};
+	iccx.dwSize = sizeof(iccx);
+	iccx.dwICC = ICC_STANDARD_CLASSES;
 
-	InitCommonControls();
+	InitCommonControlsEx(&iccx);
 
 
 	const TCHAR* const MAIN_CLASS = TEXT("MainWindow");
