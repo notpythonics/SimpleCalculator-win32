@@ -156,9 +156,11 @@ LRESULT CALLBACK MainProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE _, PSTR szCmd, int nCmd) {
-	HANDLE mutant = CreateMutex(NULL, true, TEXT("SimpleCalculatorMutex"));
-	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	HANDLE mutant = CreateMutex(NULL, false, TEXT("SimpleCalculatorMutant"));
+	if (GetLastError() == ERROR_ALREADY_EXISTS) {
+		CloseHandle(mutant);
 		return 0;
+	}
 
 	
 	INITCOMMONCONTROLSEX iccx{};
